@@ -5,6 +5,13 @@
 #include <iostream>
 #include "HTTPRequest.hpp"
 
-url class declaration goes here
+class url {
+    public:
+	    url(std::string urlString, std::string filename);
+        void displayFile(int maxLines = -1);
+    private:
+        std::string filename;
+        std::string urlString;
+};
 
 #endif

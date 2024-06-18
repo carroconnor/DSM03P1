@@ -3,5 +3,28 @@
 #include "stackADT.h"
 #include <stdexcept>
 
-your stack class will go here.You can call the class stack no matter which implementation you use.
+template<typename T>
+class stack {
+    public:
+        const static int DEFAULT_STACK_SIZE = 100;
+
+	    stack(int max);
+	    stack(const stack<T> &other);
+	    ~stack();
+
+	    bool isEmptyStack() const;
+        bool isFullStack() const;
+        void initializeStack();
+        void push(const T&);
+
+        T pop();
+        T top() const;
+
+        stack<T>& operator=(const stack<T> &);
+    private:
+        int count;
+        int maxStackSize;
+        void copyStack(const stack<T>&);
+        T *list;
+};
 #endif
