@@ -8,7 +8,7 @@ class stack {
     public:
         const static int DEFAULT_STACK_SIZE = 100;
 
-	    stack(int max);
+	    stack(int max = DEFAULT_STACK_SIZE);
 	    stack(const stack<T> &other);
 	    ~stack();
 

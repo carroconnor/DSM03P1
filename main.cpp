@@ -3,37 +3,32 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <iostream>
+#include <iterator>
 #include <limits>
+#include <istream>
 #include "url.h"
 #include "stack.h"
 #include "helpers.h"
 
-void resetStream();
 void codeGradeLoopFix(std::string errLocation);
-const int OPTIONS_COUNT = 10;
-//void printOptions();
 
 int main()
 {
-    stack<url> optionsStack = stack<url>(OPTIONS_COUNT);
-    stack<url> fwdStack = stack<url>(OPTIONS_COUNT + 50);
-    stack<url> backStack = stack<url>(OPTIONS_COUNT + 50);
+    std::vector<url> optionsList;
+    stack<url> fwdStack = stack<url>();
+    stack<url> backStack = stack<url>();
     std::stringstream ss;
     int menuOption = 1;
     std::ifstream navFile("navigation.txt");
-    std::string readStr;
-    int count = 0;
-    while(std::getline(navFile, readStr) && count < OPTIONS_COUNT){
-        while (ss.good()) {
-        std::string substr;
-        getline(ss, substr, ','); //get substring
-        substr = helpers::trim(substr); //trim whitespace
-        auto it = strToFiber.find(substr); //check if valid fiber
-        if(it != strToFiber.end())
-            this->fiber.push_back(it->second); //add to vector
-        else
-            throw std::invalid_argument("Invalid fiber type: " + it->first);
-    }
+    std::string lineStr;
+
+    while(std::getline(navFile, lineStr)){
+        ss << lineStr;
+        std::istream_iterator<std::string> begin(ss);
+        std::istream_iterator<std::string> end;
+        url newUrl = url(*begin, *end);
+        optionsList.push_back(newUrl);
     }
 
     while(true){
@@ -62,27 +57,19 @@ int main()
                     break;
             }
         }
+        ss.clear();
+        int userAnswer = helpers::inputInt("", 1, menuOption);
         menuOption = 1;
-        int userAnswer = helpers::inputInt("", 1, 4);
         switch (userAnswer)
         {
             case 1:
-                ss << menuOption << " Navigate to a new URL\n";
-                menuOption++;
+                //go to nav
                 break;
             case 2:
-                if (!backStack.isEmptyStack() && !backStack.isFullStack())
-                {
-                    ss << menuOption << " Go Back to the previous URL\n";
-                    menuOption++;
-                }
+                //pop stack
                 break;
             case 3:
-                if (!fwdStack.isEmptyStack() && !fwdStack.isFullStack())
-                {
-                    ss << menuOption << " Go Forward to the next URL\n";
-                    menuOption++;
-                }
+                //push stack
                 break;
             case 4:
                 return 0;
@@ -102,17 +89,6 @@ int main()
     //     std::cerr << "Request failed, error: " << e.what() << '\n';
     // }
     return 0;
-}
-
-// void printOptions(stack<url> ){
-
-// }
-
-void resetStream()
-{
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cout << "You did not enter a number." << std::endl;
 }
 
 void codeGradeLoopFix(std::string errLocation)
