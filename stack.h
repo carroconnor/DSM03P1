@@ -25,7 +25,7 @@ class stack {
         int count;
         int maxStackSize;
         void copyStack(const stack<T>&);
-        T[] *list; // change to something else
+        T *list = new T[DEFAULT_STACK_SIZE];
 };
 
 //tempalte class definition and implementations need to be in the same file for compiler
