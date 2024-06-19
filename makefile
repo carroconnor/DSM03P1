@@ -6,6 +6,6 @@ main: url helper main.cpp
 	#g++ -pedantic-errors -g main.cpp url -lws2_32 -o main
 url: url.h url.cpp
 	g++ -pedantic-errors -g -c url.cpp -o url
-helper: helper.h
-	g++ -pedantic-errors -g -c helper.h -o helper
+helper: helpers.h helpers.cpp
+	g++ -pedantic-errors -g -c helpers.cpp -o helper
 	
