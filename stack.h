@@ -26,7 +26,6 @@ class stack {
         int count;
         int maxStackSize;
         void copyStack(const stack<T>&);
-        //T *list = new T[DEFAULT_STACK_SIZE];
         std::vector<T> list;
 };
 
@@ -93,13 +92,9 @@ T stack<T>::top() const{
 
 template<typename T>
 stack<T>& stack<T>::operator=(const stack<T> &other){
-    //delete[] list;
     maxStackSize = other.maxStackSize;
     count = other.count;
-    list = other.list; //= new vector<T>();//new T[other.maxStackSize];
-    // for(int i = 0; i < count; i++){
-    //     list[i] = other.list[i];
-    // }
+    list = other.list; 
 
     return *this;
 }

@@ -43,6 +43,8 @@ int main()
         optionsList.push(newUrl);
     }
 
+    navFile.close();
+
     optionsList.reverse();
 
     while(true){
