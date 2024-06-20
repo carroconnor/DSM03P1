@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "HTTPRequest.hpp"
 
 class url {
