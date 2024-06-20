@@ -35,7 +35,7 @@ class url {
 //         std::string line;
 //         int count = 0;
 //         while (std::getline(file, line) && (count < maxLines || maxLines == -1)){
-//             ss << line;
+//             ss << line << std::endl;
 //             count++;
 //         }
 //         std::cout << ss.str() << std::endl;
