@@ -8,6 +8,7 @@ url::url(std::string urlString, std::string filename):urlString(urlString), file
         const auto response = request.send("GET");
         std::ofstream file(filename);
         file << std::string{response.body.begin(), response.body.end()} << '\n';
+        file.close();
     } catch(const std::exception &e){
         std::cerr << "Request failed, error: " << e.what() << "\n";
     }
@@ -23,6 +24,7 @@ void url::displayFile(int maxLines){
             ss << line << std::endl;
             count++;
         }
+        file.close();
         std::cout << ss.str() << std::endl;
     } catch(const std::exception &e){
         std::cerr << "Request failed, error: " << e.what() << "\n";
