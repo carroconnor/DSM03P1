@@ -25,7 +25,8 @@ class stack {
         int count;
         int maxStackSize;
         void copyStack(const stack<T>&);
-        T *list = new T[DEFAULT_STACK_SIZE];
+        //T *list = new T[DEFAULT_STACK_SIZE];
+        std::vector<T> list;
 };
 
 //tempalte class definition and implementations need to be in the same file for compiler
@@ -36,12 +37,13 @@ stack<T>::stack(int max):maxStackSize(max){
 
 template<typename T>
 stack<T>::stack(const stack<T> &other){
+    //list = nullptr; // Initialize list to nullptr to avoid double deletion
     copyStack(other);
 }
 
 template<typename T>
 stack<T>::~stack(){
-    delete[] list;
+    //delete[] list;
 }
 
 template<typename T>
@@ -57,7 +59,8 @@ bool stack<T>::isFullStack() const{
 template<typename T>
 void stack<T>::initializeStack(){
     count = 0;
-    list = new T[maxStackSize];
+    //delete[] list; // Free existing memory if any
+    list.clear(); //= new std::vector<T>();//T[maxStackSize];
 }
 
 template<typename T>
@@ -65,7 +68,8 @@ void stack<T>::push(const T &item){
     if(isFullStack()){
         throw std::out_of_range("Stack is full");
     }
-    list[count++] = item;
+    list.push_back(item);
+    count++;
 }
 
 template<typename T>
@@ -73,6 +77,8 @@ T stack<T>::pop(){
     if(isEmptyStack()){
         throw std::out_of_range("Stack is empty");
     }
+    list.pop_back();
+    
     return list[--count];
 }
 
@@ -86,13 +92,13 @@ T stack<T>::top() const{
 
 template<typename T>
 stack<T>& stack<T>::operator=(const stack<T> &other){
-    delete[] list;
+    //delete[] list;
     maxStackSize = other.maxStackSize;
     count = other.count;
-    list = new T[other.maxStackSize];
-    for(int i = 0; i < count; i++){
-        list[i] = other.list[i];
-    }
+    list = other.list; //= new vector<T>();//new T[other.maxStackSize];
+    // for(int i = 0; i < count; i++){
+    //     list[i] = other.list[i];
+    // }
 
     return *this;
 }

@@ -17,72 +17,94 @@ void resetStream();
 
 int main()
 {
-    url* currentUrl = nullptr;
-    std::vector<url> optionsList;
+    stack<url> optionsList;
     stack<url> fwdStack = stack<url>();
     stack<url> backStack = stack<url>();
     std::stringstream ss;
+    url currentUrl;
     int menuOption = 1;
+    int count = 0;
     std::ifstream navFile("navigation.txt");
     std::string lineStr;
 
     while(std::getline(navFile, lineStr)){
-        ss << lineStr;
-        std::istream_iterator<std::string> begin(ss);
-        std::istream_iterator<std::string> end;
-        url newUrl = url(*begin, *end);
-        optionsList.push_back(newUrl);
+        std::istringstream ss(lineStr);
+        std::string urlStr, fileNameStr;
+
+        ss >> urlStr >> fileNameStr;
+        url newUrl = url(urlStr, fileNameStr);
+        optionsList.push(newUrl);
     }
 
     while(true){
-        std::cout << "What would you like to do?";        
+        std::cout << "What would you like to do? " << std::endl;
+        std::vector<int> menuOptions;        
         for(int i = 0; i < 4; i++){
             switch(i){
                 case 0:
-                    ss << menuOption << " Navigate to a new URL\n";
-                    menuOption++;
+                    if(!optionsList.isEmptyStack()){
+                        ss << std::to_string(menuOption) << " Navigate to a new URL\n";
+                        menuOptions.push_back(0);
+                        menuOption++;
+                    }
                     break;
                 case 1:
                     if(!backStack.isEmptyStack() && !backStack.isFullStack()){
-                        ss << menuOption << " Go Back to the previous URL\n";
+                        ss << std::to_string(menuOption) << " Go Back to the previous URL\n";
+                        menuOptions.push_back(1);
                         menuOption++;
                     }
                     break;
                 case 2:
                     if(!fwdStack.isEmptyStack() && !fwdStack.isFullStack()){
-                        ss << menuOption << " Go Forward to the next URL\n";
+                        ss << std::to_string(menuOption) << " Go Forward to the next URL\n";
+                        menuOptions.push_back(2);
                         menuOption++;
                     }
                     break;
                 case 3:
-                    ss << " Exit Browser\n";
+                    ss << std::to_string(menuOption) << " Exit Browser\n";
+                    menuOptions.push_back(3);
                     menuOption++;
                     break;
             }
         }
-        ss.clear();
-        int userAnswer = inputInt("", 1, menuOption);
+        std::cout << ss.str() << std::endl;
+        ss.str(std::string());
+        int userAnswer = menuOptions.at(inputInt("", 1, menuOption) - 1);
         menuOption = 1;
         switch (userAnswer)
         {
-            case 1:
+            case 0:
                 //go to nav
-                if(currentUrl != nullptr){
-                    backStack.push(*currentUrl);
+                if(count > 0){
+                    backStack.push(currentUrl);
                 }
                 if(!fwdStack.isEmptyStack()){
-                    //fwdStack.clear();
+                    fwdStack.initializeStack();
                 }
+                currentUrl = optionsList.top();
+                currentUrl.displayFile();
+                optionsList.pop();
+                break;
+            case 1:
+                //go back
+                fwdStack.push(currentUrl);
+                currentUrl = backStack.top();
+                backStack.pop();
+                currentUrl.displayFile();
                 break;
             case 2:
-                //pop stack
+                //go forward
+                backStack.push(currentUrl);
+                currentUrl = fwdStack.top();
+                fwdStack.pop();
+                currentUrl.displayFile();
                 break;
             case 3:
-                //push stack
-                break;
-            case 4:
                 return 0;
         }
+        count++;
     }
     return 0;
 }
