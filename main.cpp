@@ -11,6 +11,12 @@
 #include "stack.h"
 //#include "helpers.h"
 
+/* Program name: stack.cpp
+* Author: Carr O'Connor
+* Date last updated: 6/20/2024
+* Purpose: utilize stacks to mimic browser navigation
+*/
+
 void codeGradeLoopFix(std::string errLocation);
 int inputInt(std::string prompt, std::vector<int> options);
 void resetStream();
@@ -36,6 +42,8 @@ int main()
         url newUrl = url(urlStr, fileNameStr);
         optionsList.push(newUrl);
     }
+
+    optionsList.reverse();
 
     while(true){
         std::cout << "What would you like to do? " << std::endl;  

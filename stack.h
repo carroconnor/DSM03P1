@@ -16,6 +16,7 @@ class stack {
         bool isFullStack() const;
         void initializeStack();
         void push(const T&);
+        void reverse();
 
         T pop();
         T top() const;
@@ -78,7 +79,7 @@ T stack<T>::pop(){
         throw std::out_of_range("Stack is empty");
     }
     list.pop_back();
-    
+
     return list[--count];
 }
 
@@ -106,5 +107,20 @@ stack<T>& stack<T>::operator=(const stack<T> &other){
 template<typename T>
 void stack<T>::copyStack(const stack<T> &other){
     *this = other;
+}
+
+template<typename T>
+void stack<T>::reverse(){
+   std::vector<T> temp;
+
+    // Reverse elements in temp arr
+    for (int i = count - 1; i >= 0; --i) {
+        temp.push_back(list[i]);
+    }
+
+    // Copy reversed elements back to list
+    for (int i = 0; i < count; ++i) {
+        list[i] = temp[i];
+    }
 }
 #endif
