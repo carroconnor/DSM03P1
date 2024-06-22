@@ -37,13 +37,11 @@ stack<T>::stack(int max):maxStackSize(max){
 
 template<typename T>
 stack<T>::stack(const stack<T> &other){
-    //list = nullptr; // Initialize list to nullptr to avoid double deletion
     copyStack(other);
 }
 
 template<typename T>
 stack<T>::~stack(){
-    //delete[] list;
 }
 
 template<typename T>
@@ -59,8 +57,7 @@ bool stack<T>::isFullStack() const{
 template<typename T>
 void stack<T>::initializeStack(){
     count = 0;
-    //delete[] list; // Free existing memory if any
-    list.clear(); //= new std::vector<T>();//T[maxStackSize];
+    list.clear(); 
 }
 
 template<typename T>
@@ -68,7 +65,7 @@ void stack<T>::push(const T &item){
     if(isFullStack()){
         throw std::out_of_range("Stack is full");
     }
-    list.push_back(item);
+    list.push_back(item); //push item to the stack
     count++;
 }
 
@@ -77,7 +74,7 @@ T stack<T>::pop(){
     if(isEmptyStack()){
         throw std::out_of_range("Stack is empty");
     }
-    list.pop_back();
+    list.pop_back(); //pop item from the stack
 
     return list[--count];
 }
@@ -92,6 +89,7 @@ T stack<T>::top() const{
 
 template<typename T>
 stack<T>& stack<T>::operator=(const stack<T> &other){
+    //check if elements are equal and return
     maxStackSize = other.maxStackSize;
     count = other.count;
     list = other.list; 

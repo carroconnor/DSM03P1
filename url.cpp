@@ -4,6 +4,7 @@
 url::url(std::string urlString, std::string filename):urlString(urlString), filename(filename)
 {
     try{
+        //make http request and write result to file
         http::Request request{urlString};
         const auto response = request.send("GET");
         std::ofstream file(filename);
@@ -16,6 +17,7 @@ url::url(std::string urlString, std::string filename):urlString(urlString), file
 
 void url::displayFile(int maxLines){
     try{
+        //read file line by line and to stringstream
         std::stringstream ss;
         std::ifstream file(filename);
         std::string line;

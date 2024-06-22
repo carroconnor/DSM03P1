@@ -9,7 +9,6 @@
 #include <istream>
 #include "url.h"
 #include "stack.h"
-//#include "helpers.h"
 
 /* Program name: stack.cpp
 * Author: Carr O'Connor
@@ -26,14 +25,14 @@ int main()
     stack<url> optionsList;
     stack<url> fwdStack = stack<url>();
     stack<url> backStack = stack<url>();
-    std::vector<int> menuOptions;
+
     std::stringstream ss;
     url currentUrl;
-    int menuOption = 1;
     int count = 0;
     std::ifstream navFile("navigation.txt");
     std::string lineStr;
 
+    //load initial nav list from file
     while(std::getline(navFile, lineStr)){
         std::istringstream ss(lineStr);
         std::string urlStr, fileNameStr;
@@ -45,18 +44,21 @@ int main()
 
     navFile.close();
 
-    optionsList.reverse();
+    //tests want bottom url first
+    optionsList.reverse(); 
 
     while(true){
+        int menuOption = 1; //keep track of which number to show user next and store in vector below
+        std::vector<int> menuOptions;
+
         std::cout << "What would you like to do? " << std::endl;  
-        menuOptions.clear();      
         for(int i = 0; i < 4; i++){
             switch(i){
                 case 0:
                     if(!optionsList.isEmptyStack()){
                         ss << "1. Navigate to a new URL\n";
-                        menuOptions.push_back(1);
-                        menuOption++;
+                        menuOptions.push_back(1); //add option to the stack
+                        menuOption++; //increment to next option
                     }
                     break;
                 case 1:
@@ -83,7 +85,6 @@ int main()
         std::cout << ss.str() << std::endl;
         ss.str(std::string());
         int userAnswer = menuOptions.at(inputInt("", menuOptions));
-        menuOption = 1;
         switch (userAnswer)
         {
             case 1:

@@ -50,6 +50,7 @@ extern "C" char *_strdup(const char *strSource);
 #include <sys/types.h>
 #include <unistd.h>
 #endif // defined(_WIN32) || defined(__CYGWIN__)
+#include <atomic>
 
 namespace http
 {
@@ -502,7 +503,7 @@ namespace http
                     close();
             }
 
-            Socket(Socket &&other) noexcept : endpoint{std::exchange(other.endpoint, invalid)}
+            Socket(Socket &&other) noexcept : endpoint{std::__exchange(other.endpoint, invalid)}
             {
             }
 
@@ -512,7 +513,7 @@ namespace http
                     return *this;
                 if (endpoint != invalid)
                     close();
-                endpoint = std::exchange(other.endpoint, invalid);
+                endpoint = std::__exchange(other.endpoint, invalid);
                 return *this;
             }
 
@@ -717,7 +718,7 @@ namespace http
         constexpr bool isWhiteSpaceChar(const C c) noexcept
         {
             return c == 0x20 || c == 0x09; // space or tab
-        };
+        }
 
         // RFC 5234, Appendix B.1. Core Rules
         template <typename C>
@@ -755,7 +756,7 @@ namespace http
                    c == 0x7E || // ~
                    isDigitChar(c) ||
                    isAlphaChar(c);
-        };
+        }
 
         // RFC 5234, Appendix B.1. Core Rules
         template <typename C>
