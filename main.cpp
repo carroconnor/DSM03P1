@@ -26,7 +26,6 @@ int main()
     stack<url> fwdStack = stack<url>();
     stack<url> backStack = stack<url>();
 
-    std::stringstream ss;
     url currentUrl;
     int count = 0;
     std::ifstream navFile("navigation.txt");
@@ -50,7 +49,7 @@ int main()
     while(true){
         int menuOption = 1; //keep track of which number to show user next and store in vector below
         std::vector<int> menuOptions;
-
+        std::stringstream ss;
         std::cout << "What would you like to do? " << std::endl;  
         for(int i = 0; i < 4; i++){
             switch(i){
